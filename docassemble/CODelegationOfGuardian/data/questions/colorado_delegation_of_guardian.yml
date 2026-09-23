@@ -1,0 +1,561 @@
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.ALAnyState:any_state.yml
+---
+metadata:
+  title: >-
+    Colorado Delegation of Guardian
+  short title: >-
+    Colorado Delegation of Gu
+  description: |-
+    This form allows a parent or guardian to delegate their authority over a minor or incapacitated person to another individual. It covers day-to-day care and medical decisions, ensuring that the appointed person can act on behalf of the child or incapacitated individual.
+  can_I_use_this_form: |
+    You can use this form if you're a parent or guardian wanting to delegate your responsibilities temporarily. It's important to specify the duration and the powers you are granting.
+  before_you_start: |
+    ### Before you get started
+    - Gather the full names and dates of birth of the child or incapacitated person.
+    - Identify the individual you wish to appoint as Attorney in Fact.
+
+    ### When you are finished
+    - Ensure the form is signed and dated by you and notarized. Keep a copy for your records.
+  when_you_are_finished: |
+    After completing the form, make sure to provide a copy to the appointed Attorney in Fact. You may also want to inform any relevant parties, such as schools or medical providers, about the delegation.
+  efiling_enabled: False
+  integrated_efiling: False
+  integrated_email_filing: False
+  requires_notarization: False
+  unlisted: False
+  landing_page_url: >-
+    https://courtformsonline.org/
+  maturity: production
+  estimated_completion_minutes: ""
+  estimated_completion_delta: ""
+  LIST_topics:
+    - "CO-00-00-00-00"
+  tags:
+    - "CO-00-00-00-00"
+  authors:
+    - Court Forms Online
+  original_form: []
+  original_form_published_on: ""
+  allowed_courts: []
+  typical_role: na
+  al_weaver_version: "2.3.1"
+  generated_on: "2026-09-16"
+  languages:
+    - en
+  jurisdiction: "NAM-US-US+CO"
+  review_date: 2026-09-16
+  form_titles:
+    - Colorado Delegation of Guardian
+  form_numbers: []
+  update_notes: ""
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "CO"
+---
+code: |
+  github_repo_name = 'docassemble-ColoradoDelegationOfGuardian'
+---
+template: interview_short_title
+content: |
+  Delegate guardianship powers now
+---
+code: |
+  al_form_type = "other_form"
+---
+id: alweaver assemblyline settings
+initial: True
+code: |
+  # Managed by the graphical AssemblyLine settings editor.
+  allowed_courts = []
+  AL_ORGANIZATION_TITLE = ''
+  AL_ORGANIZATION_HOMEPAGE = ''
+  AL_DEFAULT_LANGUAGE = 'en'
+  AL_DEFAULT_OVERFLOW_MESSAGE = '...'
+  user_ask_role = 'plaintiff'
+  al_person_answering = 'user'
+  al_form_requires_digital_signature = False
+  al_typed_signature_prefix = '/s/'
+  al_typed_signature_font = ''
+  speak_text = True
+  enable_al_language = True
+  al_user_default_language = 'en'
+  al_interview_languages = ['en']
+  github_user = ''
+  al_next_steps_enabled = True
+  al_next_steps_document_title = 'Delegation'
+  al_next_steps_document_purpose = 'authorization'
+  al_next_steps_help_organization = ''
+  al_next_steps_help_url = ''
+  al_next_steps_generate_qr_code = False
+  al_next_steps_what_happens_next = 'After completing the form, make sure to provide a copy to the appointed Attorney in Fact. You may also want to inform any relevant parties, such as schools or medical providers, about the delegation.'
+  al_next_steps_what_can_decision_maker_do = 'The appointed Attorney in Fact can manage daily care, education, and health care decisions for the child or incapacitated person. However, they cannot consent to marriage or adoption.'
+  al_next_steps_what_happens_if_i_win = 'If the delegation is successful, the appointed individual will be able to act in the best interest of the child or incapacitated person until the authority expires or is revoked.'
+  # AL_DEFAULT_COUNTRY is set in one of your own code blocks, not here.
+  # AL_DEFAULT_STATE is set in one of your own code blocks, not here.
+  # al_form_type is set in one of your own code blocks, not here.
+  # github_repo_name is set in one of your own code blocks, not here.
+---
+objects:
+  - children: ALPeopleList.using(ask_number=True,target_number=1)
+  - notarized: ALPeopleList.using(ask_number=True,target_number=1)
+  - other_parties: ALPeopleList.using(ask_number=True,target_number=1)
+  - users: ALPeopleList.using(ask_number=True,target_number=1)
+---
+sections:
+  - people: Parties & Contacts
+  - case_details: Case Details & Authorization
+  - about_you: Children & Other Parties
+  - sign_and_submit: Notarize & Submit
+  - review_colorado_delegation_of_guardian: Review your answers
+---
+id: interview_order_colorado_delegation_of_guardian
+code: |
+  user_ask_role
+  users.gather()
+  nav.set_section('people')
+  children.gather()
+  children[0].birthdate
+  user1_relationship
+  set_progress(30)
+  set_parts(subtitle=str(users))
+  nav.set_section('case_details')
+  other_parties.gather()
+  set_progress(60)
+  notarized.gather()
+  notarized_state
+  notarized[0].address.address
+  authorization_end_date
+  interview_order_colorado_delegation_of_guardian = True
+comment: Controls order and branching logic for questions specific to this form
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  colorado_delegation_of_guardian_intro
+  interview_order_colorado_delegation_of_guardian
+  signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  colorado_delegation_of_guardian_preview_question
+  basic_questions_signature_flow
+  set_progress(100)
+  colorado_delegation_of_guardian_download
+---
+id: Colorado Delegation of Guardian intro
+continue button field: colorado_delegation_of_guardian_intro
+question: |
+  Colorado Delegation of Guardian
+subquestion: |
+  ### Before you get started
+  - Gather the full names and dates of birth of the child or incapacitated person.
+  - Identify the individual you wish to appoint as Attorney in Fact.
+
+  ### When you are finished
+  - Ensure the form is signed and dated by you and notarized. Keep a copy for your records.
+
+  You can use this form if you're a parent or guardian wanting to delegate your responsibilities temporarily. It's important to specify the duration and the powers you are granting.
+---
+id: Parent Guardian Information
+question: |
+  Parent/Guardian Information
+fields:
+  - "Relationship to minor or incapacitated person": user1_relationship
+  - "Date of parent or guardian signature": users1_signature_date
+    datatype: date
+---
+id: Notarization Information
+question: |
+  Notarization Information
+fields:
+  - "State where notarization occurred": notarized_state
+  - "Day of notarization": notarized_day
+  - "Month of notarization": notarized_month
+  - "Year of notarization": notary_year
+  - "Expiration date of notarization": notarized_expiration
+---
+comment: |
+  The questions below are copies of the questions in AssemblyLine's
+  ql_baseline.yml, rewritten to name this interview's own objects instead of the
+  generic `x`. Edit them freely: they replace the AssemblyLine versions. Delete
+  one to go back to the AssemblyLine wording.
+---
+id: children names
+sets:
+  - children[i].name.first
+  - children[i].name.last
+  - children[i].name.middle
+  - children[i].name.suffix
+question: |
+  % if hasattr(children, 'ask_number') and children.ask_number and children.target_number == 1:
+  Name of child
+  % else:
+  Name of the ${ ordinal(i) } child
+  % endif
+fields:
+  - code: |
+      children[i].name_fields()
+---
+id: notarized names
+sets:
+  - notarized[i].name.first
+  - notarized[i].name.last
+  - notarized[i].name.middle
+  - notarized[i].name.suffix
+question: |
+  % if hasattr(notarized, 'ask_number') and notarized.ask_number and notarized.target_number == 1:
+  Name of notarized
+  % else:
+  Name of the ${ ordinal(i) } notarized
+  % endif
+fields:
+  - code: |
+      notarized[i].name_fields()
+---
+id: notarized address
+sets:
+  - notarized[i].address.address
+  - notarized[i].address.city
+  - notarized[i].address.state
+  - notarized[i].address.zip
+  - notarized[i].address.unit
+  - notarized[i].address.country
+question: |
+  What is ${ notarized[i].possessive('address') }?
+fields:
+  - code: |
+      notarized[i].address_fields(
+          country_code=AL_DEFAULT_COUNTRY, default_state=AL_DEFAULT_STATE
+      )
+---
+id: other parties names
+sets:
+  - other_parties[i].name.first
+  - other_parties[i].name.last
+  - other_parties[i].name.middle
+  - other_parties[i].name.suffix
+question: |
+  % if user_started_case:
+  Name of ${ ordinal(i) } **defendant** or respondent in this matter
+  % else:
+  Name of ${ ordinal(i) } **plaintiff** or petitioner in this matter
+  % endif
+fields:
+  - code: |
+      other_parties[i].name_fields(person_or_business="unsure")
+---
+id: users names
+sets:
+  - users[i].name.first
+  - users[i].name.last
+  - users[i].name.middle
+  - users[i].name.suffix
+question: |
+  % if i == 0 and al_person_answering == "user":
+  What is your name?
+  % elif al_form_type in ['starts_case', 'existing_case', 'appeal']:
+  Who is the ${ ordinal(i) } person on your side of the case?
+  % else:
+  What is the name of the ${ ordinal(i) } person who is adding their
+  name to this form with you?
+  % endif
+fields:
+  - code: |
+      users[i].name_fields()
+---
+id: preview colorado_delegation_of_guardian
+question: |
+  Preview your form before you sign it
+subquestion: |
+  Here is a preview of the form you will sign on the next page.
+
+  ${ al_recipient_bundle.as_pdf(key='preview') }
+
+  Open the form preview in a new tab. Use the "Edit answers" button to edit your
+  answers.
+
+  ${ action_button_html(url_action('review_colorado_delegation_of_guardian'), label=word('Edit answers'), color='info') }
+
+  Return to this interview tab to continue and sign your form.
+continue button field: colorado_delegation_of_guardian_preview_question
+---
+code: |
+  signature_fields = ['users[0].signature', 'notarized[0].signature']
+---
+id: colorado delegation of guardian review screen
+event: review_colorado_delegation_of_guardian
+question: |
+  Review your answers
+review:
+  - Edit: users.revisit
+    button: |
+      **Users**
+
+      % for item in users:
+        * ${ item }
+      % endfor
+  - Edit: user1_relationship
+    button: |
+      **Parent/Guardian Information**
+
+      Relationship to minor or incapacitated person: ${ showifdef('user1_relationship') }
+
+      Date of parent or guardian signature: ${ showifdef('users1_signature_date') }
+  - Edit: authorization_end_date
+    button: |
+      **Authorization Details**
+
+      End date of authorization: ${ showifdef('authorization_end_date') }
+  - Edit: notarized_state
+    button: |
+      **Notarization Information**
+
+      State where notarization occurred: ${ showifdef('notarized_state') }
+
+      Day of notarization: ${ showifdef('notarized_day') }
+
+      Month of notarization: ${ showifdef('notarized_month') }
+
+      Year of notarization: ${ showifdef('notary_year') }
+
+      Expiration date of notarization: ${ showifdef('notarized_expiration') }
+  - Edit: children.revisit
+    button: |
+      **Children**
+
+      % for item in children:
+        * ${ item }
+      % endfor
+  - Edit: other_parties.revisit
+    button: |
+      **Other parties**
+
+      % for item in other_parties:
+        * ${ item }
+      % endfor
+  - Edit: notarized.revisit
+    button: |
+      **Notarized**
+
+      % for item in notarized:
+        * ${ item }
+      % endfor
+  - Edit: user1_relationship
+    button: |
+      **Relationship to minor or incapacitated person**
+
+      Relationship to minor or incapacitated person: ${ showifdef('user1_relationship') }
+  - Edit: users1_signature_date
+    button: |
+      **Date of parent or guardian signature**
+
+      Date of parent or guardian signature: ${ showifdef('users1_signature_date') }
+  - Edit: authorization_end_date
+    button: |
+      **End date of authorization**
+
+      End date of authorization: ${ showifdef('authorization_end_date') }
+  - Edit: notarized_state
+    button: |
+      **State where notarization occurred**
+
+      State where notarization occurred: ${ showifdef('notarized_state') }
+  - Edit: notarized_day
+    button: |
+      **Day of notarization**
+
+      Day of notarization: ${ showifdef('notarized_day') }
+  - Edit: notarized_month
+    button: |
+      **Month of notarization**
+
+      Month of notarization: ${ showifdef('notarized_month') }
+  - Edit: notary_year
+    button: |
+      **Year of notarization**
+
+      Year of notarization: ${ showifdef('notary_year') }
+  - Edit: notarized_expiration
+    button: |
+      **Expiration date of notarization**
+
+      Expiration date of notarization: ${ showifdef('notarized_expiration') }
+---
+id: edit users
+continue button field: users.revisit
+question: |
+  Edit users
+subquestion: |
+  ${ users.table }
+
+  ${ users.add_action() }
+---
+table: users.table
+rows: users
+columns:
+  - Name: |
+      row_item.name_full() if defined("row_item.name.first") else ""
+  - Signature: |
+      row_item.signature if defined("row_item.signature") else ""
+edit:
+  - name.first
+confirm: True
+---
+id: edit children
+continue button field: children.revisit
+question: |
+  Edit children
+subquestion: |
+  ${ children.table }
+
+  ${ children.add_action() }
+---
+table: children.table
+rows: children
+columns:
+  - Birthdate: |
+      row_item.birthdate if defined("row_item.birthdate") else ""
+  - Name: |
+      row_item.name_full() if defined("row_item.name.first") else ""
+edit:
+  - birthdate
+  - name.first
+confirm: True
+---
+id: edit other parties
+continue button field: other_parties.revisit
+question: |
+  Edit other_parties
+subquestion: |
+  ${ other_parties.table }
+
+  ${ other_parties.add_action() }
+---
+table: other_parties.table
+rows: other_parties
+columns:
+  - Name: |
+      row_item.name_full() if defined("row_item.name.first") else ""
+edit:
+  - name.first
+confirm: True
+---
+id: edit notarized
+continue button field: notarized.revisit
+question: |
+  Edit notarized
+subquestion: |
+  ${ notarized.table }
+
+  ${ notarized.add_action() }
+---
+table: notarized.table
+rows: notarized
+columns:
+  - Address: |
+      row_item.address.block() if defined("row_item.address.county") else ""
+  - Name: |
+      row_item.name_full() if defined("row_item.name.first") else ""
+  - Signature: |
+      row_item.signature if defined("row_item.signature") else ""
+edit:
+  - address.county
+  - name.first
+confirm: True
+---
+id: download colorado_delegation_of_guardian
+event: colorado_delegation_of_guardian_download
+question: |
+  All done
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+
+  Use the options on this page to view, download and send your form. Use the
+  "Edit answers" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_colorado_delegation_of_guardian'), label=word('Edit answers'), color='info') }
+
+  ${ al_user_bundle.download_list_html() }
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
+
+progress: 100
+---
+# ALDocument objects specify the metadata for each template
+objects:
+  - colorado_delegation_of_guardian_Post_interview_instructions: ALDocument.using(filename="colorado_delegation_of_guardian_next_steps.docx", enabled=al_next_steps_enabled, has_addendum=False)
+  - colorado_delegation_of_guardian_attachment: ALDocument.using(filename="colorado_delegation_of_guardian", enabled=True, has_addendum=False)
+---
+# Bundles group the ALDocuments into separate downloads, such as for court and for the user
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[colorado_delegation_of_guardian_Post_interview_instructions, colorado_delegation_of_guardian_attachment], filename="colorado_delegation_of_guardian", enabled=True)
+  - al_recipient_bundle: ALDocumentBundle.using(elements=[colorado_delegation_of_guardian_attachment], filename="colorado_delegation_of_guardian", enabled=True)
+---
+template: colorado_delegation_of_guardian_Post_interview_instructions.title
+content: |
+  Instructions
+---
+template: colorado_delegation_of_guardian_attachment.title
+content: |
+  Colorado Delegation of Guardian
+---
+template: al_user_bundle.title
+content: |
+  All forms to download for your records
+---
+template: al_recipient_bundle.title
+content: |
+  All forms to file
+---
+# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the
+# same template is used for "preview" and "final" keys, and logic in the template checks
+# the value of `i` to show or hide the user's signature
+attachment:
+  name: Post-interview-Instructions
+  filename: colorado_delegation_of_guardian_next_steps
+  docx template file: colorado_delegation_of_guardian_next_steps.docx
+  variable name: colorado_delegation_of_guardian_Post_interview_instructions[i]
+  skip undefined: True
+  tagged pdf: True
+---
+attachment:
+  name: colorado delegation of guardian
+  filename: colorado_delegation_of_guardian
+  variable name: colorado_delegation_of_guardian_attachment[i]
+  skip undefined: True
+  pdf template file: Colorado_Delegation_of_Guardian.pdf
+  fields:
+      - "users1_name_full": ${ users[0] }
+      - "children1_birthdate": ${ children[0].birthdate.format() }
+      - "user1_relationship": ${ user1_relationship }
+      - "children1_name": ${ children[0] }
+      - "other_parties1_name": ${ other_parties[0] }
+      - "authorization_end_date": ${ authorization_end_date.format() }
+      - "users1_signature_date": ${ users1_signature_date.format() }
+      - "users1_signature": ${ users[0].signature }
+      - "users1_signature__1": ${ users[0].signature }
+      - "notarized_county": ${ notarized[0].address.county }
+      - "notarized_state": ${ notarized_state }
+      - "notarized_day": ${ notarized_day }
+      - "notarized_month": ${ notarized_month }
+      - "notary_year": ${ notary_year }
+      - "notarized_expiration": ${ notarized_expiration }
+      - "notarized_name": ${ notarized[0] }
+      - "notarized_signature": ${ notarized[0].signature_if_final(i) }
